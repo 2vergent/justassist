@@ -1,8 +1,18 @@
 import nltk
 import os
 import platform
+import requests
+import bs4
 from nltk.corpus import wordnet
 from googletrans import Translator
+
+def wikiscrap(searchword):
+	print(searchword)
+	res = requests.get('http://en.wikipedia.org/wiki/' + ''.join(searchword))
+	res.raise_for_status()
+	wiki = bs4.BeautifulSoup(res.text, "html.parser")
+	for i in wiki.select('p'):
+		print(i.getText())
 
 def translate():
 	lang = input("Enter Language code: ")
@@ -64,8 +74,11 @@ q = False
 while (q != True):
 	s = input(" > ")
 	s = s.lower()
-
-	if (s == "translate" or s == "t"):
+	s = s.strip()
+	if (s[ :7] == "search "):
+		searchword = s[7: ]
+		wikiscrap(searchword)
+	elif (s == "translate" or s == "t"):
 		translate()
 	
 	elif (s == "dictionary" or s == "d"):
@@ -78,12 +91,12 @@ while (q != True):
 		os._exit(0)
 	
 	elif s == "clear":
-			if platform.system() == "Windows":
-				os.system('cls')
-			elif platform.system() == "Linux":
-				os.system('clear')
-			else:
-				os.system('clear')
+		if platform.system() == "Windows":
+			os.system('cls')
+		elif platform.system() == "Linux":
+			os.system('clear')
+		else:
+			os.system('clear')
 	
 	else:
 		continue
