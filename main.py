@@ -7,12 +7,14 @@ from nltk.corpus import wordnet
 from googletrans import Translator
 
 def wikiscrap(searchword):
-	print(searchword)
-	res = requests.get('http://en.wikipedia.org/wiki/' + ''.join(searchword))
-	res.raise_for_status()
-	wiki = bs4.BeautifulSoup(res.text, "html.parser")
-	for i in wiki.select('p'):
-		print(i.getText())
+	try:
+		res = requests.get('http://en.wikipedia.org/wiki/' + ''.join(searchword))
+		res.raise_for_status()
+		wiki = bs4.BeautifulSoup(res.text, "html.parser")
+		for i in wiki.select('p'):
+			print(i.getText())
+	except:
+		print("Sorry, something went wrong.")
 
 def translate():
 	lang = input("Enter Language code: ")
@@ -25,18 +27,14 @@ def about_word():
 	synonyms = []
 	antonyms = []
 	word = input("Enter your word to get more info on it: ")
-	
 	for syn in wordnet.synsets(word):
 		for l in syn.lemmas():
 			synonyms.append(l.name())
 			if l.antonyms():
 				antonyms.append(l.antonyms()[0].name())
-
-				
 	print("\n")
 	d = syn.definition()
 	print("DEFINITION: ",d.capitalize())
-	
 	print("\n")
 	expressions = syn.examples()
 	print("EXPRESSIONS: ")
@@ -44,7 +42,6 @@ def about_word():
 	for x in expressions:
 		print("   ",c,"."," ",x.capitalize(),sep='')
 		c+= 1
-	
 	print("\n")
 	c = 1
 	print("SYNONYMS: ")
@@ -52,7 +49,6 @@ def about_word():
 		x = x.replace('_',' ')
 		print("   ",c,"."," ",x.capitalize(),sep='')
 		c+= 1
-		
 	print("\n")
 	c = 1
 	print("ANTONYMS: ")
@@ -80,16 +76,12 @@ while (q != True):
 		wikiscrap(searchword)
 	elif (s == "translate" or s == "t"):
 		translate()
-	
 	elif (s == "dictionary" or s == "d"):
 		about_word()
-
 	elif (s == "compare" or s == "c"):
 		comp_words()
-
 	elif (s == "exit" or s == "quit"):
 		os._exit(0)
-	
 	elif s == "clear":
 		if platform.system() == "Windows":
 			os.system('cls')
@@ -97,8 +89,6 @@ while (q != True):
 			os.system('clear')
 		else:
 			os.system('clear')
-	
 	else:
 		continue
-
 	print("\n")
