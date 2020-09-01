@@ -41,21 +41,25 @@ def about_word():
 	c = 1
 	for x in expressions:
 		print("   ",c,"."," ",x.capitalize(),sep='')
-		c+= 1
+		c += 1
 	print("\n")
 	c = 1
 	print("SYNONYMS: ")
 	for x in set(synonyms):
 		x = x.replace('_',' ')
 		print("   ",c,"."," ",x.capitalize(),sep='')
-		c+= 1
+		c += 1
+		if (c == 4):
+			break
 	print("\n")
 	c = 1
 	print("ANTONYMS: ")
 	if len(antonyms)!= 0:
 		for x in set(antonyms):
 			print("   ",c,"."," ",x.capitalize(),sep='')
-			c+= 1
+			c += 1
+			if (c == 4):
+				break
 	else:
 		print("   ","Sorry, I couldn't find any antonyms for",word)
 
@@ -92,3 +96,4 @@ while (q != True):
 	else:
 		continue
 	print("\n")
+
